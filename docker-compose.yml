@@ -1,0 +1,15 @@
+ version: "3"
+ services:
+    kafkaui_rbac:
+      platform: linux/amd64
+      build:
+        dockerfile: Dockerfile
+      image: kafkaui_rbac:local
+      ports:
+        - "8501:8501"
+      volumes:
+        - ./config/secrets.toml:/app/.streamlit/secrets.toml
+        - ./config/credentials:/root/.aws/credentials
+        - ./config/k8scontext:/app/config/k8scontext
+        - ./config/kafkaui_action.json:/app/config/kafkaui_actions.json
+      container_name: kafkaui_rbac

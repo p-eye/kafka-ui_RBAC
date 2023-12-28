@@ -1,0 +1,18 @@
+#streamlit
+streamlit==1.28.0
+extra-streamlit-components==0.1.60
+streamlit-option-menu==0.3.4
+
+# oauth
+pyjwt==2.8.0
+pyjwt[crypto]==2.8.0
+
+# k8s
+awscli==1.31.7
+kubernetes==26.1.0
+
+# mysql
+mysql-connector-python==8.2.0
+
+# etc
+PyYAML==6.0.1
