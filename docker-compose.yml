@@ -1,7 +1,6 @@
  version: "3"
  services:
     kafkaui_rbac:
-      platform: linux/amd64
       build:
         dockerfile: Dockerfile
       image: kafkaui_rbac:local
