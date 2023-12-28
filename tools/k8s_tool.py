@@ -5,8 +5,8 @@ from kubernetes.client.rest import ApiException
 
 class K8s:
     def __init__(self) -> None:
-        self.K8S_CONTEXT_PATH = "./config/k8scontext"
-        config.load_kube_config(self.K8S_CONTEXT_PATH)
+        self.K8S_CONFIG_PATH = "./config/kubeconfig"
+        config.load_kube_config(self.K8S_CONFIG_PATH)
         self.corev1, self.appsv1 = client.CoreV1Api(), client.AppsV1Api()
         
     def patch_configmap(self, namespace, configmap, data):

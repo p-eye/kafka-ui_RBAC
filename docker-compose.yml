@@ -10,6 +10,6 @@
       volumes:
         - ./config/secrets.toml:/app/.streamlit/secrets.toml
         - ./config/credentials:/root/.aws/credentials
-        - ./config/k8scontext:/app/config/k8scontext
+        - ./config/kubeconfig:/app/config/kubeconfig
         - ./config/kafkaui_action.json:/app/config/kafkaui_actions.json
       container_name: kafkaui_rbac
