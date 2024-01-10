@@ -22,7 +22,7 @@ def show_kafkaui_redeploy(deployment, col):
     if col.button("Redeploy Kafka-ui",
                    type="primary",
                    ):
-        kafkaui.redeploy(deployment)
+        kafkaui.redeploy()
 
 def save_page():
     try:
