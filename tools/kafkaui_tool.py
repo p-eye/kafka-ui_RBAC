@@ -11,7 +11,7 @@ class Kafkaui:
         self.SECRET_KEY = "kafkaui"
         config = st.secrets[self.SECRET_KEY]
         self.NAMESPACE = config.namespace
-        self.DEPLOYMENT = config.deployment
+        self.POD = config.pod
         self.RBAC_CONFIGMAP = config.rbac_configmap
         self.ENV_CONFIGMAP = config.env_configmap
 
@@ -27,11 +27,11 @@ class Kafkaui:
             if config == self.RBAC_CONFIGMAP:
                 return config
 
-    def get_deployment(self) -> str:
-        deployment_list: list = k8s.read_deployment_list(self.NAMESPACE)
-        for deploy in deployment_list:
-            if deploy == self.DEPLOYMENT:
-                return deploy
+    def get_pod(self) -> str:
+        pod_list: list = k8s.read_pod_list(self.NAMESPACE)
+        for pod in pod_list:
+            if pod.startswith(self.POD):
+                return pod
     
     def add(self, new_role):
         role_raw: yaml = self.get_role_raw()
@@ -53,9 +53,9 @@ class Kafkaui:
         configmap: str = self.get_rbac_configmap()
         k8s.patch_configmap(self.NAMESPACE, configmap, new_json)
                
-    def redeploy(self):
-        deployment: str = self.get_deployment()
-        k8s.patch_deployment(self.NAMESPACE, deployment, body=None)
+    def restart_pod(self):
+        pod: str = self.get_pod()
+        k8s.delete_pod(self.NAMESPACE, pod)
 
     def get_role_raw(self) -> str:
         configmap: str = self.get_rbac_configmap()
@@ -74,7 +74,7 @@ class Kafkaui:
         return role_list
 
     def get_resource(self):
-        return self.NAMESPACE, self.get_deployment(), self.get_rbac_configmap()
+        return self.NAMESPACE, self.get_pod(), self.get_rbac_configmap()
     
     def get_kafka_clusters(self):
         configmap: str = self.get_env_configmap()
