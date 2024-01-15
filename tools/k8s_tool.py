@@ -22,15 +22,13 @@ class K8s:
         except ApiException as e:
             logging.error("Exception when calling CoreV1Api->patch_namespaced_config_map: %s\n" % e)
 
-    def patch_deployment(self, namespace, deployment, body):
+    def delete_pod(self, namespace, pod):
         try:
-            res_V1Deployment = self.appsv1.patch_namespaced_deployment(
-                name=deployment,
-                namespace=namespace,
-                body=body)
-
+            res_V1Pod = self.corev1.delete_namespaced_pod(
+                name=pod,
+                namespace=namespace)
         except ApiException as e:
-            logging.error("Exception when calling AppsV1Api->patch_namespaced_deployment: %s\n" % e)
+            logging.error("Exception when calling CoreV1Api->delete_namespaced_pod: %s\n" % e)
 
     def read_configmap_list(self, namespace) -> list:
         try:
@@ -44,17 +42,17 @@ class K8s:
         except ApiException as e:
             logging.error("Exception when calling CoreV1Api->list_namespaced_config_map: %s\n" % e)
 
-    def read_deployment_list(self, namespace) -> list:
+    def read_pod_list(self, namespace) -> list:
         try:
-            res_V1DeploymentList = self.appsv1.list_namespaced_deployment( 
+            res_V1PodList = self.corev1.list_namespaced_pod( 
                 namespace=namespace)
-            deployment_list =[]
-            for deploy in res_V1DeploymentList.items:
-                deployment_list.append(deploy.metadata.name)
-            return deployment_list
+            pod_list =[]
+            for pod in res_V1PodList.items:
+                pod_list.append(pod.metadata.name)
+            return pod_list
         
         except ApiException as e:
-            logging.error("Exception when calling AppsV1Api->list_namespaced_deployment: %s\n" % e)
+            logging.error("Exception when calling CoreV1Api->list_namespaced_pod: %s\n" % e)
 
     def read_configmap(self, namespace, configmap) -> client.V1ConfigMap:
         try:
